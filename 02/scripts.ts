@@ -26,11 +26,13 @@ type Endereco = {
   cidade: string;
   cep: string;
   estado: string;
-  tipoTransacao: Lowercase<"Debito" | "Credito">;
 };
 
-type CarrinhoEnderecoTransacaoMinuscula = Omit<Carrinho, "tipoTransacao"> &
-  Endereco;
+type CarrinhoEnderecoTransacaoMinuscula = Omit<Carrinho, "tipoTransacao"> & {
+  endereco: Endereco;
+  tipoTransacao: Lowercase<"Debito" | "Credito">;
+};
+//A correcao foi aqui! Ufa! Compare os dois commits para ver o que eu havia feito! Aqui eu posso criar um objeto que recebe tanto um Type como uma propriedade, ai la embaixo e so lancar o endereco dentro do objeto, e o novo tipo transacao!
 
 const carrinho = (info: CarrinhoEnderecoTransacaoMinuscula) => {
   return info;
@@ -38,17 +40,21 @@ const carrinho = (info: CarrinhoEnderecoTransacaoMinuscula) => {
 
 carrinho({
   tipoTransacao: "debito",
-  bairro: "centro",
+
   cartao: {
     numero: 123456,
     validade: "string",
     nome: "string",
     cvv: 120,
   },
-  cep: "1234564564",
-  cidade: "Amazonas",
+  endereco: {
+    rua: "Rua 3",
+    bairro: "centro",
+    cep: "1234564564",
+    cidade: "Amazonas",
+    estado: "BA",
+  },
   desconto: 10,
-  estado: "BA",
   frete: 12,
   item: {
     nome: "string",
@@ -56,5 +62,4 @@ carrinho({
     valor: 122,
   },
   qtd: 2,
-  rua: "Rua 3",
 });
